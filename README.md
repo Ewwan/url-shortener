@@ -2,7 +2,7 @@
     <div>
         <h1>URL SHORTENER</h1>
         <wbr />
-        <p>I used a URL shortening service <strong><em>Rebrandly URL Shortener API</em></strong> to create an application.</p>
+        <p>I used a URL shortening service <strong><em><a href="https://app.rebrandly.com">Rebrandly URL Shortener API</a></em></strong> to create an application.</p>
         <p>In order to use the functionality of the app Enter the URL into the input field, and click the shorten button in the web page.</p>
     </div>
     <wbr>
