@@ -31,42 +31,73 @@ const renderResponse = (response) => {
   const responseField = document.querySelector('#responseField');
   
   // AJAX functions
-  const shortenUrl = () => {
-    const urlToShorten = inputField.value;
-    const data = JSON.stringify({destination: urlToShorten}) ;// We're including this information because the API expects to see an object with a key 'destination' that has a value of a URL; The reason for creating data is to prepare the information needed to send in the body.
-    
+
   /*// XHR Object: POST
-    const xhr = new XMLHttpRequest;
-    xhr.responseType = 'json';
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-    renderResponse(xhr.response);
-          }
+const shortenUrl = () => {
+  const urlToShorten = inputField.value;
+  const data = JSON.stringify({destination: urlToShorten}) ;// We're including this information because the API expects to see an object with a key 'destination' that has a value of a URL; The reason for creating data is to prepare the information needed to send in the body.
+
+  const xhr = new XMLHttpRequest;
+  xhr.responseType = 'json';
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      renderResponse(xhr.response);
     }
-    xhr.open('POST', url);
-      xhr.setRequestHeader('Content-type', 'application/json');
-      xhr.setRequestHeader('apikey', apiKey);
-    xhr.send(data); */
-  
-    // fetch() POST request
-    fetch(url, {
+  }
+  xhr.open('POST', url);
+  xhr.setRequestHeader('Content-type', 'application/json');
+  xhr.setRequestHeader('apikey', apiKey);
+  xhr.send(data); 
+}
+*/
+
+/* // fetch() POST request
+const shortenUrl = () => {
+  const urlToShorten = inputField.value;
+  const data = JSON.stringify({destination: urlToShorten}) ;// We're including this information because the API expects to see an object with a key 'destination' that has a value of a URL; The reason for creating data is to prepare the information needed to send in the body.
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      'apikey': apiKey
+    },
+    body: data
+  })
+  .then(response => {
+    if(response.ok){
+      return response.json();
+    }
+    throw new Error('Request failed!');
+  }, networkError => console.log(networkError.message))
+  .then(jsonResponse => {
+    renderResponse(jsonResponse);
+  })
+}
+*/
+
+//async await fetch() POST Request
+const shortenUrl = async () => {
+  const urlToShorten = inputField.value;
+  const data = JSON.stringify({destination: urlToShorten});
+
+  try{
+    const response = await fetch(url, {
       method: 'POST',
+      body: data,
       headers: {
         'Content-type': 'application/json',
         'apikey': apiKey
-      },
-      body: data
-    })
-    .then(response => {
-      if(response.ok){
-        return response.json();
       }
-      throw new Error('Request failed!');
-    }, networkError => console.log(networkError.message))
-    .then(jsonResponse => {
+    });
+    if(response.ok){
+      const jsonResponse = await response.json();
       renderResponse(jsonResponse);
-    })
+    }
+  }catch(error){
+    console.log(error);
   }
+}
   
   // Clear page and call AJAX functions
   const displayShortUrl = (event) => {
